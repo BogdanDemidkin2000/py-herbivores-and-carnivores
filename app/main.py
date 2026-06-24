@@ -1,6 +1,6 @@
 class Animal:
 
-    alive = []
+    alive: list["Animal"] = []
 
     def __init__(
             self,
@@ -11,7 +11,9 @@ class Animal:
         self.name = name
         self.health = health
         self.hidden = hidden
-        Animal.alive.append(self)
+
+        if self.health > 0:
+            Animal.alive.append(self)
 
     def __repr__(self: "Animal") -> str:
         return (f"{{Name: {self.name}, "
@@ -33,6 +35,5 @@ class Carnivore(Animal):
             animal.health -= 50
 
         if animal.health <= 0:
-            for from_anima_list in Animal.alive:
-                if from_anima_list.name == animal.name:
-                    Animal.alive.remove(from_anima_list)
+            if animal in Animal.alive:
+                Animal.alive.remove(animal)
